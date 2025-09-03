@@ -1,0 +1,14 @@
+import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { SomethingService } from './something/something.service';
+import { MessageFormatterService } from './message-formatter/message-formatter.service';
+import { LoggerService } from './logger/logger.service';
+import { TasksModule } from './tasks/tasks.module';
+
+@Module({
+  imports: [TasksModule],
+  controllers: [AppController],
+  providers: [AppService, SomethingService, MessageFormatterService, LoggerService],
+})
+export class AppModule {}
