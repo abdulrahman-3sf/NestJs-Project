@@ -3,7 +3,7 @@ import { enTaskStatus, ITask } from './task.model';
 import { CreateTaskDTO } from './create-task.dto';
 import { randomUUID } from 'crypto';
 import { UpdateTaskDTO } from './update-task.dto';
-import { WrongTaskStatusException } from './wrong-task-status.exception';
+import { WrongTaskStatusException } from './exceptions/wrong-task-status.exception';
 
 @Injectable()
 export class TasksService {

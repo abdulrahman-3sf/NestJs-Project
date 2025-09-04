@@ -6,7 +6,7 @@ import { FindOneParams } from './find-one.params';
 import { UpdateTaskStatusDTO } from './update-task-status.dto';
 import { UpdateTaskDTO } from './update-task.dto';
 import { isInstance } from 'class-validator';
-import { WrongTaskStatusException } from './wrong-task-status.exception';
+import { WrongTaskStatusException } from './exceptions/wrong-task-status.exception';
 
 @Controller('tasks')
 export class TasksController {
