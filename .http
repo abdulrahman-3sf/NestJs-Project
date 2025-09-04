@@ -1,3 +1,12 @@
 GET http://localhost:3000/tasks
 
 GET http://localhost:3000/tasks/132
+
+POST http://localhost:3000/tasks
+Content-Type: application/json
+
+{
+    "titile": "learn NestJs",
+    "description": "complete the nesJs course",
+    "status": "OPEN"
+}
