@@ -1,9 +1,12 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, NotFoundException, Param, Patch, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, HttpCode, HttpStatus, NotFoundException, Param, Patch, Post } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import type { ITask } from './task.model';
 import { CreateTaskDTO } from './create-task.dto';
 import { FindOneParams } from './find-one.params';
 import { UpdateTaskStatusDTO } from './update-task-status.dto';
+import { UpdateTaskDTO } from './update-task.dto';
+import { isInstance } from 'class-validator';
+import { WrongTaskStatusException } from './wrong-task-status.exception';
 
 @Controller('tasks')
 export class TasksController {
@@ -34,21 +37,38 @@ export class TasksController {
         return this.taskService.create(createTaskDTO);
     }
 
-    @Patch('/:id/status')
-    public updateTaskStatus(
+    // @Patch('/:id/status')
+    // public updateTaskStatus(
+    //     @Param() params: FindOneParams,
+    //     @Body() body: UpdateTaskStatusDTO
+    // ) : ITask {
+    //     const task = this.findOneOrFail(params.id);
+    //     task.status = body.status;
+
+    //     return task;
+    // }
+
+    @Patch('/:id')
+    public updateTask(
         @Param() params: FindOneParams,
-        @Body() body: UpdateTaskStatusDTO
+        @Body() updateTaskDTO: UpdateTaskDTO
     ) : ITask {
         const task = this.findOneOrFail(params.id);
-        task.status = body.status;
-
-        return task;
+        try {
+            return this.taskService.updateTask(task, updateTaskDTO);
+        } catch (error) {
+            if (error instanceof WrongTaskStatusException) {
+                throw new BadRequestException([error.message]);
+            }
+            throw error;
+        }   
+        
     }
 
     @Delete('/:id')
     @HttpCode(HttpStatus.NO_CONTENT)
     public deleteTask(@Param() params: FindOneParams) : void {
         const task = this.findOneOrFail(params.id);
-        this.taskService.deleteTask(task.id);
+        this.taskService.deleteTask(task);
     }
 }
