@@ -1,4 +1,4 @@
-import { Body, Controller, Get, NotFoundException, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, NotFoundException, Param, Patch, Post } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import type { ITask } from './task.model';
 import { CreateTaskDTO } from './create-task.dto';
@@ -43,5 +43,12 @@ export class TasksController {
         task.status = body.status;
 
         return task;
+    }
+
+    @Delete('/:id')
+    @HttpCode(HttpStatus.NO_CONTENT)
+    public deleteTask(@Param() params: FindOneParams) : void {
+        const task = this.findOneOrFail(params.id);
+        this.taskService.deleteTask(task.id);
     }
 }
