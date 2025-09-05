@@ -25,4 +25,4 @@ export class Task {
         default: enTaskStatus.OPEN,
     })
     status: enTaskStatus;
-}
+} 
