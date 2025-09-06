@@ -3,9 +3,15 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { TodosModule } from './todos/todos.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import appDataSource from '../data-source';
 
 @Module({
-  imports: [UsersModule, TodosModule],
+  imports: [
+    TypeOrmModule.forRoot(appDataSource.options),
+    UsersModule, 
+    TodosModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
