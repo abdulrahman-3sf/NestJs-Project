@@ -10,6 +10,7 @@ const appDataSource = new DataSource({
     entities: ['dist/src/**/*.entity{.ts,.js}'],
     // migrations: ['dist/src/db/migrations/*{.ts,.js}'],
     synchronize: true,
+    logging: true,
 });
 
 export default appDataSource;
