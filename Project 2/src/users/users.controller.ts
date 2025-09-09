@@ -1,38 +1,39 @@
-import { Body, Controller, Get, NotFoundException, Param, ParseIntPipe, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, NotFoundException, Param, ParseIntPipe, Patch, Post, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import { ApiBadRequestResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @ApiTags('Users')
 @Controller('users')
 export class UsersController {
-    constructor(private usersService: UsersService) {}
+    constructor(private readonly usersService: UsersService) {}
 
     @ApiOkResponse({type: User, isArray: true})
-    @ApiQuery({name: 'name', required: false})
     @Get()
-    getUsers(@Query('name') name?: string): User[] {
-        return this.usersService.findAll(name);
+    async getUsers(): Promise<User[]> {
+        return this.usersService.getAll();
     }
 
     @ApiOkResponse({type: User})
     @ApiNotFoundResponse()
     @Get(':id')
-    getUserById(@Param('id', ParseIntPipe) id: number): User | undefined {
-        const user = this.usersService.findUserByID(id);
-        
-        if (!user) {
-            throw new NotFoundException();
-        }
-
-        return user;
+    async getUserById(@Param('id', ParseIntPipe) id: number): Promise<User> {
+        return this.usersService.getUserById(id);
     }
 
     @ApiCreatedResponse({type: User})
     @ApiBadRequestResponse()
     @Post()
-    createUser(@Body() body: CreateUserDto): User {
+    async createUser(@Body() body: CreateUserDto): Promise<User> {
         return this.usersService.createUser(body);
+    }
+
+    @ApiOkResponse({type: User})
+    @ApiNotFoundResponse()
+    @Patch()
+    async updateUser(@Body() body: UpdateUserDto): Promise<User> {
+        return this.usersService.updateUser(body);
     }
 }
