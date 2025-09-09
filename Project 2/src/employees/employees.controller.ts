@@ -15,4 +15,9 @@ export class EmployeesController {
   getEmploee(): any {
     return this.employeesService.getEmployeeById(2);
   }
+
+  @Get('deleteemployee')
+  deleteEmployee(): any {
+    return this.employeesService.deleteEmployee(2);
+  }
 }

@@ -54,4 +54,8 @@ export class EmployeesService {
         .where('employee.id = :employeeId', {employeeId: id})
         .getOne();
     }
+
+    deleteEmployee(id: number) {
+        return this.employeeRepo.delete(id);
+    }
 }
