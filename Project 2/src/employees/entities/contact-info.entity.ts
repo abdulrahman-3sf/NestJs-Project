@@ -12,7 +12,7 @@ export class ContactInfo {
     @Column({nullable: true})
     phone: string;
 
-    @OneToOne(() => Employee, employee => employee.contactInfo)
+    @OneToOne(() => Employee, employee => employee.contactInfo, {onDelete: 'CASCADE'}) // if the employee deleted then delete this row
     @JoinColumn()
     employee: Employee;
 }
