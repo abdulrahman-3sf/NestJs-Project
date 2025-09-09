@@ -43,4 +43,8 @@ export class EmployeesService {
 
         await this.employeeRepo.save(manager);
     }
+
+    getEmployeeById(id: number) {
+        return this.employeeRepo.findOne({where: {id}, relations: ['manager', 'directReports', 'tasks', 'contactInfo', 'meetings']});
+    }
 }

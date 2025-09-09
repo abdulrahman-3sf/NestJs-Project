@@ -10,4 +10,9 @@ export class EmployeesController {
     await this.employeesService.examples();
     return 'Examples Completed!';
   }
+
+  @Get('getemployee')
+  getEmploee(): any {
+    return this.employeesService.getEmployeeById(2);
+  }
 }
