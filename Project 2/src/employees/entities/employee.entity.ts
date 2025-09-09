@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { ContactInfo } from "./contact-info.entity";
 import { Task } from "./task.entity";
 
@@ -9,6 +9,12 @@ export class Employee {
 
     @Column()
     name: string;
+
+    @ManyToOne(() => Employee, employee => employee.directReports, {onDelete: 'SET NULL'})
+    manager: Employee;
+
+    @OneToMany(() => Employee, employee => employee.manager)
+    directReports: Employee[];
 
     @OneToOne(() => ContactInfo, contactInfo => contactInfo.employee)
     contactInfo: ContactInfo;
