@@ -45,6 +45,13 @@ export class EmployeesService {
     }
 
     getEmployeeById(id: number) {
-        return this.employeeRepo.findOne({where: {id}, relations: ['manager', 'directReports', 'tasks', 'contactInfo', 'meetings']});
+        // return this.employeeRepo.findOne({where: {id}, relations: ['manager', 'directReports', 'tasks', 'contactInfo', 'meetings']});
+        return this.employeeRepo
+        .createQueryBuilder('employee')
+        .leftJoinAndSelect('employee.directReports', 'directReports')
+        .leftJoinAndSelect('employee.meetings', 'meetings')
+        .leftJoinAndSelect('employee.tasks', 'tasks')
+        .where('employee.id = :employeeId', {employeeId: id})
+        .getOne();
     }
 }
