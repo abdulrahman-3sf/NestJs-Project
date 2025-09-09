@@ -1,6 +1,7 @@
-import { Column, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { ContactInfo } from "./contact-info.entity";
 import { Task } from "./task.entity";
+import { Meeting } from "./meeting.entity";
 
 @Entity()
 export class Employee {
@@ -21,4 +22,8 @@ export class Employee {
 
     @OneToMany(() => Task, tasks => tasks.employee)
     tasks: Task[];
+
+    @ManyToMany(() => Meeting, meetings => meetings.attendees) // in ManyToMany if automaticly casecase on delete
+    @JoinTable() // we put it in Employee table because, if we think that the employee own a meeting not the meeting own the employee
+    meetings: Meeting[];
 }
