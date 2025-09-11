@@ -6,10 +6,10 @@ export class AuthService {
     constructor(private readonly consumersService: ConsumersService) {}
 
     async validateConsumer(username: string, password: string): Promise<any> {
-        const user = await this.consumersService.findOne(username);
+        const consumer = await this.consumersService.findOne(username);
 
-        if (user && user.password === password) {
-            const {username, password, ...rest} = user;
+        if (consumer && consumer.password === password) {
+            const {username, password, ...rest} = consumer;
             return rest;
         }
 
